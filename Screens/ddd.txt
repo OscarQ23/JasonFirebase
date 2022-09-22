@@ -1,0 +1,61 @@
+import { View, Text,StyleSheet, Keyboard, TextInput, Button } from 'react-native';
+import React ,{useState}from 'react';
+import {firebase} from './bd';
+import {collection} from 'firebase/firestore'
+const Post = () => {
+    const todo = firebase.firestore().collection('Comments');
+    const [addData, setAddData]=useState('');
+
+    const addField=()=>{ 
+        if(addData && addData.length>0){
+        
+        const data ={
+            heading:addData
+        };
+        todo
+        .add(data).then(()=>{
+            setAddData('');
+            Keyboard.dismiss();
+        }).catch((error)=>{
+            alert(error);
+        })
+    }
+    }
+
+  return (
+    <View>
+      <TextInput
+      placeholder='Add '
+      onChangeText={(heading)=> setAddData(heading)}
+      value={addData}
+      autoCapitalize='none'
+      />
+      <Button
+      title='add'
+      onPress={addField}
+      />
+    </View>
+  )
+}
+
+export default Post
+
+
+
+
+return(
+            <View>
+            <TextInput
+            placeholder='write here'
+            value={addData}
+            onChangeText={(Comments)=> setAddData(Comments)}
+            style={styles.input}
+            autoCapitalize={false}
+
+            />
+            <Button
+            title='Post your comments :D'
+            onPress={addField}
+        />
+        </View>
+        );
